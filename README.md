@@ -3,6 +3,8 @@
 Simple plain old object generator for C# and Vb.Net. 
 
 
+=================
+
 The MIT License (MIT)
 
 Copyright (c) 2015 Terrance L Smith JR
