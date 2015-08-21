@@ -1,20 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
-using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PocoGenerator
 {
     public partial class Form1 : Form
     {
+        public enum ProgrammingLanguage
+        {
+            CSharp = 0,
+            VbNet = 1
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -36,7 +37,6 @@ namespace PocoGenerator
 
         private void button1_Click(object sender, EventArgs e)
         {
-
             folderBrowserDialog1.Description = "Select location you wish to output classes to.";
             //saveFileDialog1.AddExtension = true;
             //saveFileDialog1.CheckPathExists = true;
@@ -50,19 +50,14 @@ namespace PocoGenerator
             if (!isOk)
             {
                 textBox2.Text += "Invalid directory\r\n";
-                return;
             }
-            else
-            {
-                textBox1.Text = folderBrowserDialog1.SelectedPath;
-                WriteLineMessageToDebugLog("Selected Directory = " + textBox1.Text);
-            }
-
+            textBox1.Text = folderBrowserDialog1.SelectedPath;
+            WriteLineMessageToDebugLog("Selected Directory = " + textBox1.Text);
         }
 
         private void GenerateTableClass(string tableName, string outputLocation, ProgrammingLanguage lang)
         {
-            var result = String.Empty;
+            var result = string.Empty;
             WriteLineMessageToDebugLog("Executing GenerateTableClass");
             //sb.AppendLine(Connection.DumpVbClass("select * from " + table.TABLE_NAME, table.TABLE_NAME, true));
             var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Db"].ConnectionString);
@@ -84,13 +79,12 @@ namespace PocoGenerator
             }
 
 
-
             con.Close();
         }
 
         private void ExecutePocoGen()
         {
-            var selectedLang = this.comboBox1.SelectedItem.ToString() == "C#"
+            var selectedLang = comboBox1.SelectedItem.ToString() == "C#"
                 ? ProgrammingLanguage.CSharp
                 : ProgrammingLanguage.VbNet;
 
@@ -99,7 +93,7 @@ namespace PocoGenerator
             WriteLineMessageToDebugLog(tableNames.Count() + " Tables Found.");
             foreach (var table in tableNames)
             {
-                GenerateTableClass(table, this.folderBrowserDialog1.SelectedPath, selectedLang);
+                GenerateTableClass(table, folderBrowserDialog1.SelectedPath, selectedLang);
             }
         }
 
@@ -122,17 +116,10 @@ namespace PocoGenerator
                 textBox2.Text += ex.StackTrace;
                 textBox2.Text += "------------------------------------------\r\n";
             }
-
         }
 
         private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
-
-        }
-        public enum ProgrammingLanguage
-        {
-            CSharp = 0,
-            VbNet = 1
         }
     }
 }

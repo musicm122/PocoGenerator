@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PocoGenerator
 {
@@ -13,7 +9,7 @@ namespace PocoGenerator
     {
         public static List<string> GetTableNames(string dbName, string schema = "dbo")
         {
-            var retval = new List<String>();
+            var retval = new List<string>();
 
             var sql = @"SELECT [t0].[TABLE_NAME]
                         FROM [INFORMATION_SCHEMA].[TABLES] AS [t0] 
@@ -32,7 +28,6 @@ namespace PocoGenerator
                 }
             }
             return retval;
-
         }
     }
 }
